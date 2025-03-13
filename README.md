@@ -32,11 +32,9 @@ This Julia-based code repository supplements the work of [Felix Kuebler](https:/
 
 ### Software requirements
 
-* We provide implementations that use python 3.10 and Julia 1.9.
+* We provide implementations that use Julia 1.9.
 
 * For the  The basic dependencies are [Tensorflow==2.x](https://www.tensorflow.org/), [hydra](https://hydra.cc/) and [Tensorboard](https://www.tensorflow.org/tensorboard) (for monitoring).
-
-* The file ``requirements.txt`` lists the detailed dependencies. Please run "pip install -r requirements.txt" as the first step. See [here](https://pip.pypa.io/en/stable/user_guide/#ensuring-repeatability) for further instructions on creating and using the ``requirements.txt`` file.
 
 * The file ``Project.toml `` lists the detailed dependencies for Julia. See [here](https://pkgdocs.julialang.org/v1/toml-files/) for detailed instructions how on how to set up and use the ``Project.toml`` file in a Julia project.
 
@@ -48,7 +46,7 @@ The random seed for our computations in *Section 6 - The social cost of carbon a
 
 ### Memory and runtime requirements
 
-* To solve one IAM model as discussed in *Section 6 - The social cost of carbon and optimal abatement in the DICE economy* until full convergence, it requires about 15 min on an ordinary laptop. All those models presented in the paper were solved using our [DEQN library](DEQN_for_IAMs), which we ran on an 8-core Intel compute node on [https://nuvolos.cloud](https://nuvolos.cloud) with 64GB of RAM, and 100Gb of fast local storage (SSD).
+* To solve one overlapping generations model solved with SJE as discussed in *Section 6 - The social cost of carbon and optimal abatement in the DICE economy* until full convergence, it requires about 15 min on an ordinary laptop. All those models presented in the paper were solved using our [DEQN library](DEQN_for_IAMs), which we ran on an 8-core Intel compute node on [https://nuvolos.cloud](https://nuvolos.cloud) with 64GB of RAM, and 100Gb of fast local storage (SSD).
 
 * All the postprocessing codes (to produce the summary statistics, plots, and so forth) were run on an ordinary 4-core Intel-based laptop with Ubuntu version 18.04.5 LTS and consume typically few seconds to run.
 
