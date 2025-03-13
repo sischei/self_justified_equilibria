@@ -8,17 +8,14 @@
 
 ### Organization of the repository
 
-This Python and Julia-based code repository supplements the work of [Doris Folini](https://iac.ethz.ch/people-iac/person-detail.NDY3MDg=.TGlzdC82MzcsLTE5NDE2NTk2NTg=.html), [Aleksandra Friedl](https://sites.google.com/view/aleksandrafriedl/home), [Felix Kuebler](https://sites.google.com/site/fkubler/), and [Simon Scheidegger](https://sites.google.com/site/simonscheidegger), titled _[The Climate in Climate Economics](#citation)_ (Folini et al.; 2023).
+This Julia-based code repository supplements the work of [Felix Kuebler](https://sites.google.com/site/fkubler/) and [Simon Scheidegger](https://sites.google.com/site/simonscheidegger), titled _[Self-Justified Equilibria: Existence and Computation](#citation)_ (Kubler and Scheidegger; 2025).
 
 * This repository contains three distinct folders:
-  1. ["calibration_data"](calibration_data): Raw data as well as the calibration scripts (written in Python 3) for *Section 3 - A comprehensive framework to calibrate the climate in IAMs*, and *Section 4 -  CDICE - re-calibrating the climate of DICE* of our article.
-      - Its content and usage are detailed in the corresponding [README](calibration_data/README.md).
-
-  2. ["DEQN_for_IAMs"](DEQN_for_IAMs): Replication codes for *Section 6 - The social cost of carbon and optimal abatement in the DICE economy*, where non-stationary integrated assessment models (IAMs) are solved by adopting ["Deep Equilibrium Nets (DEQN)"](https://onlinelibrary.wiley.com/doi/epdf/10.1111/iere.12575) to the context of climate economic models. Notice that the codes provided here complement the Online Appendix D of our article, where the formal underpinnings of the code are outlined.
+  1. ["Replication Codes"](code): Replication codes for *Section  - Application of SJE: A High-Dimensional Stochastic Production Economy*, where non-stationary integrated assessment models (IAMs) are solved by adopting ["Deep Equilibrium Nets (DEQN)"](https://onlinelibrary.wiley.com/doi/epdf/10.1111/iere.12575) to the context of climate economic models. Notice that the codes provided here complement the Online Appendix D of our article, where the formal underpinnings of the code are outlined.
       - How to compute the individual model calibrations is detailed in the various readmes that provided under the following three links: [optimal results](DEQN_for_IAMs/dice_generic/README.md), [business as usual results](DEQN_for_IAMs/gdice_baseline/README.md), and [results from the appendix](DEQN_for_IAMs/dice_generic_FEX).
       - The content and usage of the generic Deep Equilibrium Nets for Integrated Assessment Models framework are outlined in the corresponding [README](DEQN_for_IAMs/README.md).
       
-  3. ["figures_replication"](figures_replication): Replication routines for plotting all the figures that are presented in the paper.
+  2. ["Replication of Figures"](figures_replication): Replication routines for plotting all the figures that are presented in the paper.
 
   
 ### Replication of the numerical results
@@ -59,9 +56,7 @@ The random seed for our computations in *Section 6 - The social cost of carbon a
 
 ## Authors
 
-* [Doris Folini](https://iac.ethz.ch/people-iac/person-detail.NDY3MDg=.TGlzdC82MzcsLTE5NDE2NTk2NTg=.html) (ETH Zuerich, Institute for Atmospheric and Climate Science)
 * [Felix Kuebler](https://sites.google.com/site/fkubler/) (the University of Zuerich, Department for Banking and Finance, and Swiss Finance Institute)
-* [Aleksandra Friedl](https://sites.google.com/view/aleksandrafriedl/home) (the University of Lausanne, Department of Economics, and ifo Institute)
 * [Simon Scheidegger](https://sites.google.com/site/simonscheidegger) (the University of Lausanne, Department of Economics)
 
 
