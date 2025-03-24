@@ -17,8 +17,6 @@ x = zeros(hh)
 
 # Figure 1	
 
-global coeff = raread("data_replication/coeff_5.dat")
-global lincoeff = raread("data_replication/lincoeff_5.dat")
 x = (1:hh)
 y = zeros(hh, 4)
 y[:, 1] = raread("data_replication/figure1_0b.dat")
