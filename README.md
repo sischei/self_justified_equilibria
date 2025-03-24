@@ -11,10 +11,10 @@
 This [Julia-based](https://julialang.org/) code repository supplements the work of [Felix Kuebler](https://sites.google.com/site/fkubler/) and [Simon Scheidegger](https://sites.google.com/site/simonscheidegger), titled _[Self-Justified Equilibria: Existence and Computation](#citation)_ (Kubler and Scheidegger; Journal of the European Economic Association (JEEA), 2025).
 
 * This repository contains two distinct folders:
-  1. ["Replication Codes"](code): Replication codes for *Section 6 - Application of SJE: A High-Dimensional Stochastic Production Economy*, where a complex, nonlinear, high-dimensional stochastic production economy is solved with the SJE algorithm. 
+  1. ["Replication codes"](code): Replication codes for *Section 6 - Application of SJE: A High-Dimensional Stochastic Production Economy*, where a complex, nonlinear, high-dimensional stochastic production economy is solved with the SJE algorithm. 
   Notice that the codes provided here complement *Section 5 - The numerical method*, where the algorithmic underpinnings of the code are outlined.
       
-  2. ["Replication of Figures"](code/figures_replication): Replication routine for plotting all the figures that are presented in the paper.
+  2. ["Replication of figures"](code/figures_replication): Replication routine for plotting all the figures that are presented in the paper.
 
   
 ### Replication of the numerical results
@@ -82,7 +82,7 @@ $ julia mainhom.jl
 * ``mainhom.jl`` includes the file ``paramshom.jl``; it contains the parameterization of the model, and its header provides some more specifics. 
 
 
-### 2. Create Figures
+### 2. Create figures
 
 In this section, we provide the basic instructions on how to replicate the 3 figures of the article, based on pre-computed results.
 
@@ -98,13 +98,13 @@ Next, you need to run a Julia script called ``figures.jl``. To do so, type the f
 $ julia figures.jl
 ```
 
-This script loads pre-computed results, located here:
+This script loads [pre-computed results](code/data_replication), located here:
 
 ```
 $ <PATH to the repository>/code/data_replication 
 ```
 
-and will store the resulting plots (Figure1.pdf, Figure2.pdf, and Figure3.pdf)
+and will store the resulting plots [(Figure1.pdf, Figure2.pdf, and Figure3.pdf).](code/figures_replication)
 
 ```
 $ <PATH to the repository>/code/figures_replication 
