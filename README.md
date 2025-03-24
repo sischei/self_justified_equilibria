@@ -48,7 +48,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
 
 * The optimal optimal order of running the computer code to replicate the results in article are as follows. 
   1. Run the instructions listed in the subsection ``1. Replication of Section 6: Application of SJE: A High-Dimensional Stochastic Production Economy``. This set of instructions will allow you to replicate the results of section 6 of the article. 
-  2. Run the instructions listed in ``2. Create Figures``. This set of instructions will allow you to replicate the figures of section 6 of the article, created from pre-computed restart/result files.
+  2. Run the instructions listed in ``2. Replication of Figures``. This set of instructions will allow you to replicate the figures of section 6 of the article, created from pre-computed restart/result files.
 
   
 ### 1. Replication of Section 6: Application of SJE: A High-Dimensional Stochastic Production Economy
@@ -82,7 +82,7 @@ $ julia mainhom.jl
 * ``mainhom.jl`` includes the file ``paramshom.jl``; it contains the parameterization of the model, and its header provides some more specifics. 
 
 
-### 2. Create figures
+### 2. Replication of figures
 
 In this section, we provide the basic instructions on how to replicate the 3 figures of the article, based on pre-computed results.
 
