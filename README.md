@@ -77,9 +77,9 @@ To solve the model from scratch, execute:
 $ julia mainhom.jl
 ```
 
-* The header of ``mainhom.jl`` specifies the various functions we require to solve the model with SJE.
+* The header of [``mainhom.jl``](code/mainhom.jl) specifies the various functions we require to solve the model with SJE.
 
-* ``mainhom.jl`` includes the file ``paramshom.jl``; it contains the parameterization of the model, and its header provides some more specifics. 
+* ``mainhom.jl`` includes the file [``paramshom.jl``](code/paramshom.jl); it contains the parameterization of the model, and its header provides some more specifics. 
 
 
 ### 2. Replication of figures
