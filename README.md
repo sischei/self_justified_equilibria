@@ -26,7 +26,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
 
 ### Software requirements
 
-* We provide implementations that use Julia 1.9.
+* We provide implementations that use Julia 1.9. 
 
 * The file ``Project.toml `` lists the detailed dependencies for Julia. See [here](https://pkgdocs.julialang.org/v1/toml-files/) for detailed instructions how on how to set up and use the ``Project.toml`` file in a Julia project.
 
@@ -39,7 +39,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
 
 * All the postprocessing codes (to produce the summary statistics, plots, and so forth) were run on the same hardware and consume typically few seconds to run.
 
-* The approximate time needed to reproduce all the analyses for this paper on a standard (year 2023) desktop machine is 1 day of human time.
+* The approximate time needed to reproduce all the analyses for this paper on a standard (year 2025) desktop machine is 1 day of human time.
 
 
 ## Replication
