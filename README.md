@@ -98,7 +98,7 @@ Next, you need to run a Julia script called ``figures.jl``. To do so, type the f
 $ julia figures.jl
 ```
 
-This script loads [pre-computed results](code/data_replication), located here:
+This script loads pre-computed results, located [here](code/data_replication):
 
 ```
 $ <PATH to the repository>/code/data_replication 
