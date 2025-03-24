@@ -14,7 +14,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
   1. ["Replication Codes"](code): Replication codes for *Section 6 - Application of SJE: A High-Dimensional Stochastic Production Economy*, where a complex, nonlinear, high-dimensional stochastic production economy is solved with the SJE algorithm. 
   Notice that the codes provided here complement *Section 5 - The numerical method*, where the algorithmic underpinnings of the code are outlined.
       
-  2. ["Replication of Figures"](code): Replication routine for plotting all the figures that are presented in the paper.
+  2. ["Replication of Figures"](code/figures_replication): Replication routine for plotting all the figures that are presented in the paper.
 
   
 ### Replication of the numerical results
