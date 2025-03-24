@@ -1,5 +1,5 @@
 ################################################################################
-# params.jl
+# paramshom.jl
 #
 # Description:
 #   Parameter file for the 2-type, 60-overlapping-generations model.
