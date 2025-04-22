@@ -68,7 +68,7 @@ julia> using Pkg
 julia> Pkg.add("LinearAlgebra")
 julia> Pkg.add("NLsolve")
 julia> Pkg.add("Plots")
-julia> Pkg.add("RawArray)
+julia> Pkg.add("RawArray")
 ```
 
 To solve the model from scratch, execute:
