@@ -12,6 +12,9 @@
 
 using Plots, RawArray
 
+#const RESULTS_PATH = "results"  # folder where the results were written from mainhom.jl
+const RESULTS_PATH = "data_replication"  # folder where the pre-computed results are located   
+    
 const hh = 60 # Number generations
 x = zeros(hh)
 
@@ -19,32 +22,32 @@ x = zeros(hh)
 
 x = (1:hh)
 y = zeros(hh, 4)
-y[:, 1] = raread("data_replication/figure1_0b.dat")
-y[:, 2] = raread("data_replication/figure1_5b.dat")
-y[:, 3] = raread("data_replication/figure1_9b.dat")
-y[:, 4] = raread("data_replication/figure1_5a.dat")
+y[:, 1] = raread(joinpath(RESULTS_PATH, "figure1_0b.dat"))
+y[:, 2] = raread(joinpath(RESULTS_PATH, "figure1_5b.dat"))
+y[:, 3] = raread(joinpath(RESULTS_PATH, "figure1_9b.dat"))
+y[:, 4] = raread(joinpath(RESULTS_PATH, "figure1_5a.dat"))
 p1 = scatter(x, y, xlabel="Age", ylabel="Error", label=["Ψ=0" "Ψ=0.5" "Ψ=0.9" "agent1"])
 savefig(p1, "figures_replication/Figure1.pdf")  # Save Figure 1 as PDF
 
 
 # Figure 2
 
-help = raread("data_replication/figure2_5a.dat")
+help = raread(joinpath(RESULTS_PATH, "figure2_5a.dat"))
 display(scatter(help[:, 1], help[:, 2], xlabel="Cash-at-Hand", ylabel="Savings", label="Type 1, Agent 5"))
-help = raread("data_replication/figure2_5b.dat")
+help = raread(joinpath(RESULTS_PATH, "figure2_5b.dat"))
 display(scatter(help[:, 1], help[:, 2], xlabel="Cash-at-Hand", ylabel="Savings", label="Type 2, Agent 5"))
 
 # Additional code to create a composite figure for Figure 2
-help_a = raread("data_replication/figure2_5a.dat")
+help_a = raread(joinpath(RESULTS_PATH, "figure2_5a.dat"))
 p2a = scatter(help_a[:, 1], help_a[:, 2], xlabel="Cash-at-Hand", ylabel="Savings", label="Type 1, Agent 5")
-help_b = raread("data_replication/figure2_5b.dat")
+help_b = raread(joinpath(RESULTS_PATH, "figure2_5b.dat"))
 p2b = scatter(help_b[:, 1], help_b[:, 2], xlabel="Cash-at-Hand", ylabel="Savings", label="Type 2, Agent 5")
 p2 = plot(p2a, p2b, layout = (1, 2))
 savefig(p2, "figures_replication/Figure2.pdf")  # Save composite Figure 2 as PDF
 
 
 # Figure 3		
-h = raread("data_replication/figure3_9.dat")
+h = raread(joinpath(RESULTS_PATH, "figure3_9.dat"))
 y = zeros(10)
 for i = 1:10
     y[i] = h[10+1-i]

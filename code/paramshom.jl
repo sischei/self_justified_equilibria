@@ -28,7 +28,7 @@ const maxsim= 10
 const alpha=0.33 # capital share
 const bond=[1,1,0.85,1] # payoffs of risky bond, 0.85 at s=3
 const clevern=1
-const frac=0.5 # fraction of sophisticated traders
+const frac=0.5 # fraction of sophisticated traders; corresponds to \Psi, e.g., Psi = 0, 0.5, 0.9
 hs=zeros(2*hh)
 hs[1:hh].=frac
 hs[hh+1:2*hh].=1-frac

@@ -33,6 +33,8 @@ using NLsolve, Plots, RawArray
 
 include("./paramshom.jl") # is assumed to be in the same folder.
   
+const RESULTS_PATH = "results"  # is the folder where the results of this routine are written   
+  
 function cheby(x,pdeg)
 	# evaluate Chebychev polynomial of degree pdeg at x
     res=ones(pdeg)
@@ -498,7 +500,7 @@ function newcoeff(lambda) # determine new coefficients, here via ols
 				if lambda>2
 					if h==5
 						heig=eigvals(magma[h,:,:])
-						rawrite(heig[2*hh-9:2*hh],"figure3_0.dat")
+						rawrite(heig[2*hh-9:2*hh],joinpath(RESULTS_PATH, "figure3_0.dat") )
 					end
 				end
 				evec=eigvecs(magma[h,:,:])
@@ -652,15 +654,15 @@ function solvemodel() # Solve the model!
 		println("Welfare difference", gain)
 		println("Average cons.",utinv.(avdis[:,1]))
 		if iter == maxiter
-			rawrite(err[:,1]./utinv.(avdis[:,1]),"figure1_0a.dat")
-			rawrite(err[:,2]./utinv.(avdis[:,2]),"figure1_0b.dat")
+			rawrite(err[:,1]./utinv.(avdis[:,1]),joinpath(RESULTS_PATH,"figure1_0a.dat"))
+			rawrite(err[:,2]./utinv.(avdis[:,2]),joinpath(RESULTS_PATH,"figure1_0b.dat"))
 			help=zeros(maxsim*maxtime,2)
 			help[:,1]=ah[5,1,:]
 			help[:,2]=yh[5,1,:]
-			rawrite(help,"figure2_0a.dat")
+			rawrite(help,joinpath(RESULTS_PATH,"figure2_0a.dat"))
 			help[:,1]=ah[5,2,:]
 			help[:,2]=yh[5,2,:]
-			rawrite(help,"figure2_0b.dat")
+			rawrite(help,joinpath(RESULTS_PATH,"figure2_0b.dat"))
 			display(scatter(ah[5,1,:],yh[5,1,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 1, Agent 5"))
 			savefig("Fig2_l0.pdf")
 			display(scatter(ah[5,2,:],yh[5,2,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 2, Agent 5"))
@@ -684,12 +686,12 @@ end
 
 # Save coefficients and active subspaces if needed:
 # (Commented out lines are placeholders for saving data if desired.)
-#rawrite(coeff,"coeff0.dat")
-#rawrite(lincoeff,"lincoeff0.dat")
-#rawrite(bounds,"bounds0.dat")
-#rawrite(oldk,"oldk0.dat")
-#rawrite(oldak,"oldak0.dat")
-#rawrite(oldb,"oldb.dat")
-#rawrite(proj,"proj0.dat")
-#rawrite(sol,"sol0.dat")
+#rawrite(coeff,joinpath(RESULTS_PATH,"coeff0.dat"))
+#rawrite(lincoeff,joinpath(RESULTS_PATH,"lincoeff0.dat"))
+#rawrite(bounds,joinpath(RESULTS_PATH,"bounds0.dat"))
+#rawrite(oldk,joinpath(RESULTS_PATH,"oldk0.dat"))
+#rawrite(oldak,joinpath(RESULTS_PATH,"oldak0.dat"))
+#rawrite(oldb,joinpath(RESULTS_PATH,"oldb.dat"))
+#rawrite(proj,joinpath(RESULTS_PATH,"proj0.dat"))
+#rawrite(sol,joinpath(RESULTS_PATH,"sol0.dat"))
 
