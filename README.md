@@ -119,7 +119,6 @@ and will store the resulting plots [(Figure1.pdf, Figure2.pdf, and Figure3.pdf).
 $ <PATH to the repository>/code/figures_replication 
 ```
 
-
 2. If you simply want to replicate the plots in the paper without re-running ``mainhom.jl``, proceed as follows:
 First, go to the following folder:
 
