@@ -12,8 +12,8 @@
 
 using Plots, RawArray
 
-#const RESULTS_PATH = "results"  # folder where the results were written from mainhom.jl
-const RESULTS_PATH = "data_replication"  # folder where the pre-computed results are located   
+const RESULTS_PATH = "results"  # folder where the results were written from mainhom.jl
+#const RESULTS_PATH = "data_replication"  # folder where the pre-computed results are located   
     
 const hh = 60 # Number generations
 x = zeros(hh)

@@ -24,6 +24,14 @@
 #   2) Install the required Julia packages (e.g., NLsolve, Plots, RawArray).
 #   3) Run the script with "julia mainhom.jl".
 #   4) Allows for multithreading via "julia --threads=n mainhom.jl", where n is the number of threads
+#   5) The result files are written into a folder called "RESULTS_PATH", which has to be set below.
+#
+# Naming Convention for output Data:
+#   1) There are a variety of files produced below (figure1_5a.dat, figure1_5b.dat, figure2_5a.dat, 
+#      figure2_5b.dat, figure3_5.dat). The "5" represents
+#      the after-comma digit in frac, the fraction of sophisticated traders. frac is set in paramshom.jl.
+#      figure_1_5a.dat represents a figure, where frac = 0.5. If frac is set e.g. to 0.9, the output 
+#      files would need to be renamed accordingly (e.g., figure1_9a.dat).
 #
 ################################################################################
 
@@ -500,7 +508,7 @@ function newcoeff(lambda) # determine new coefficients, here via ols
 				if lambda>2
 					if h==5
 						heig=eigvals(magma[h,:,:])
-						rawrite(heig[2*hh-9:2*hh],joinpath(RESULTS_PATH, "figure3_0.dat") )
+						rawrite(heig[2*hh-9:2*hh],joinpath(RESULTS_PATH, "figure3_5.dat") )
 					end
 				end
 				evec=eigvecs(magma[h,:,:])
@@ -654,15 +662,15 @@ function solvemodel() # Solve the model!
 		println("Welfare difference", gain)
 		println("Average cons.",utinv.(avdis[:,1]))
 		if iter == maxiter
-			rawrite(err[:,1]./utinv.(avdis[:,1]),joinpath(RESULTS_PATH,"figure1_0a.dat"))
-			rawrite(err[:,2]./utinv.(avdis[:,2]),joinpath(RESULTS_PATH,"figure1_0b.dat"))
+			rawrite(err[:,1]./utinv.(avdis[:,1]),joinpath(RESULTS_PATH,"figure1_5a.dat"))
+			rawrite(err[:,2]./utinv.(avdis[:,2]),joinpath(RESULTS_PATH,"figure1_5b.dat"))
 			help=zeros(maxsim*maxtime,2)
 			help[:,1]=ah[5,1,:]
 			help[:,2]=yh[5,1,:]
-			rawrite(help,joinpath(RESULTS_PATH,"figure2_0a.dat"))
+			rawrite(help,joinpath(RESULTS_PATH,"figure2_5a.dat"))
 			help[:,1]=ah[5,2,:]
 			help[:,2]=yh[5,2,:]
-			rawrite(help,joinpath(RESULTS_PATH,"figure2_0b.dat"))
+			rawrite(help,joinpath(RESULTS_PATH,"figure2_5b.dat"))
 			display(scatter(ah[5,1,:],yh[5,1,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 1, Agent 5"))
 			savefig("Fig2_l0.pdf")
 			display(scatter(ah[5,2,:],yh[5,2,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 2, Agent 5"))
