@@ -40,7 +40,6 @@ using NLsolve, Plots, RawArray
 #  2 types with different forecasting abilities, 60 overlapping generations 
 
 include("./paramshom.jl") # is assumed to be in the same folder.
-  
 const RESULTS_PATH = "results"  # is the folder where the results of this routine are written   
   
 function cheby(x,pdeg)
@@ -512,7 +511,12 @@ function newcoeff(lambda) # determine new coefficients, here via ols
 					end
 				end
 				evec=eigvecs(magma[h,:,:])
-				global proj[h,:,1:dim[h]]=evec[:,(2*hh+1-dim[h]):2*hh]
+				if isreal(evec[:,(2*hh+1-dim[h]):2*hh])
+					global proj[h,:,1:dim[h]]=evec[:,(2*hh+1-dim[h]):2*hh]
+				else
+					println("Problem, EV not real")
+#					global proj[h,:,1:dim[h]]=proj[h,:,1:dim[h]]
+				end
 				for i=1:maxsim*maxtime
 					help=ones(2*hh)
 					help[1:hh]=x1[1:hh,1,i]
@@ -607,6 +611,7 @@ function solvemodel() # Solve the model!
 				lolk[1:2*hh]=cah
 				lolk[2*hh+1]=lambda
 				# Solve system of FOC and market clearing and st,lolk
+				res=zeros(4*hh+1)
 				res=soleq(st,lolk,i,t)
 				global sol[:,(i-1)*maxtime+t]=res[:]
 				kap=res[1:2*hh]
@@ -672,17 +677,17 @@ function solvemodel() # Solve the model!
 			help[:,2]=yh[5,2,:]
 			rawrite(help,joinpath(RESULTS_PATH,"figure2_5b.dat"))
 			display(scatter(ah[5,1,:],yh[5,1,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 1, Agent 5"))
-			savefig("Fig2_l0.pdf")
+			savefig("Fig2_l5.pdf")
 			display(scatter(ah[5,2,:],yh[5,2,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 2, Agent 5"))
-			savefig("Fig2_r0.pdf")
+			savefig("Fig2_r5.pdf")
 		end
 		println("Avg error1",err[:,1]./utinv.(avdis[:,1]))
 		println("Avg error2",err[:,2]./utinv.(avdis[:,2]))
 		global runflag=1
 		# In iteration 125,save oldk and oldb to provide initial conditions for later iterations
 		if iter == 125
-			global holdk[:,:,:]=oldk
-			global holdb[:,:,:]=oldb
+			global holdk[:,:,:]=oldk[:,:,:]
+			global holdb[:,:,:]=oldb[:,:,:]
 			println(holdk)
 		end
 	end

@@ -27,7 +27,7 @@ const maxtime=200  # Simulation steps in each iteration
 const maxsim= 10
 const alpha=0.33 # capital share
 const bond=[1,1,0.85,1] # payoffs of risky bond, 0.85 at s=3
-const clevern=1
+const clevern=61 # no. of sophistated generations within type 1. In the paper only the case clevern=hh+1 is discussed but the  code can handle other values.
 const frac=0.5 # fraction of sophisticated traders; corresponds to \Psi, e.g., Psi = 0, 0.5, 0.9
 hs=zeros(2*hh)
 hs[1:hh].=frac
@@ -75,7 +75,6 @@ hpc=ones(hh)
 for h=1:hh
     hpc[h]=1-1/(1+sum(prod(beta[i] for i=h:k) for k=h:hh))
 end
-# global lincoeff[:,2]=hpc[:]
 const stapc=hpc
 global oldk=zeros(hh+1,nn,maxsim)
 global oldb=zeros(hh+1,nn,maxsim)
