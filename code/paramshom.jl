@@ -28,7 +28,13 @@ const maxsim= 10
 const alpha=0.33 # capital share
 const bond=[1,1,0.85,1] # payoffs of risky bond, 0.85 at s=3
 const clevern=61 # no. of sophistated generations within type 1. In the paper only the case clevern=hh+1 is discussed but the  code can handle other values.
-const frac=0.5 # fraction of sophisticated traders; corresponds to \Psi, e.g., Psi = 0, 0.5, 0.9
+
+# AUTOMATION ------------------------------------------------------------------
+# fraction of sophisticated traders; corresponds to Ψ (0.0, 0.5, 0.9, …)
+# read from ENV["PSI"], default "0.0" so behavior is unchanged if no flag
+const frac = parse(Float64, get(ENV, "PSI", "0.0"))
+# -----------------------------------------------------------------------------
+
 hs=zeros(2*hh)
 hs[1:hh].=frac
 hs[hh+1:2*hh].=1-frac
@@ -37,11 +43,11 @@ const hfrac=hs
 # determine life-cycle labor profile
 hen=zeros(hh+1)
 for i=1:retire
- 	hen[i]=1/100.0*exp(4.47+0.033*i-0.0006*i^2)
+    hen[i]=1/100.0*exp(4.47+0.033*i-0.0006*i^2)
 end
 hen[retire]=hen[retire-1]/2
 for i=retire+1:hh+1
-	hen[i]=0.0
+    hen[i]=0.0
 end
 const en=hen[:]/(sum(hen[i] for i=1:hh+1))
 
@@ -55,7 +61,6 @@ const ststk=((1/beta[1]-(1.0-delta[1]))/(alpha*tfp[1]))^(1.0/(alpha-1.0))
 
 const eps=0.00001 # very small number
 global runflag::Int = 0
-
 
 hs=zeros(Int64,clevern)
 hs[1:clevern].=2
