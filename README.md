@@ -65,12 +65,13 @@ $ cd <PATH to the repository>/code
 
 Next, make sure you have the packages "LinearAlgebra", "NLsolve", "Plots", and "RawArray" are installed. You can do this by launching Julia in a terminal, and then type the following commands:
 
+```
 julia> using Pkg
 julia> Pkg.add("LinearAlgebra")
 julia> Pkg.add("NLsolve")
 julia> Pkg.add("Plots")
 julia> Pkg.add("RawArray")
-
+```
 
 To solve the model from scratch, execute:
 
