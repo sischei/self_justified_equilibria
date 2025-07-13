@@ -671,4 +671,59 @@ function solvemodel() # Solve the model!
         end
         # compute the average matrix of partial derivatives
         global magma[:,:,:]=sum(lmagma[:,:,:,i] for i=1:maxsim)
-        # determine the new polynomial coefficients
+        # determine the new polynomial coefficients and the new projecton matrices
+        if iter == maxiter
+            lambda=5
+        end
+        err=newcoeff(lambda)
+        println("...................")
+        global avdis=avdis/(maxtime*maxsim)
+        gain=zeros(hh)
+        for h=1:hh
+            gain[h]=(utinv(avdis[h,1])-utinv(avdis[h,2]))/utinv(avdis[h,1])
+        end
+        println("Welfare difference", gain)
+        println("Average cons.",utinv.(avdis[:,1]))
+        if iter == maxiter
+            rawrite(err[:,1]./utinv.(avdis[:,1]),
+                   joinpath(RESULTS_PATH,"figure1_$(SUFFIX)a.dat"))    # AUTOMATION
+            rawrite(err[:,2]./utinv.(avdis[:,2]),
+                   joinpath(RESULTS_PATH,"figure1_$(SUFFIX)b.dat"))    # AUTOMATION
+            help=zeros(maxsim*maxtime,2)
+            help[:,1]=ah[5,1,:]
+            help[:,2]=yh[5,1,:]
+            rawrite(help,joinpath(RESULTS_PATH,"figure2_$(SUFFIX)a.dat")) # AUTOMATION
+            help[:,1]=ah[5,2,:]
+            help[:,2]=yh[5,2,:]
+            rawrite(help,joinpath(RESULTS_PATH,"figure2_$(SUFFIX)b.dat")) # AUTOMATION
+            scatter(ah[5,1,:],yh[5,1,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 1, Agent 5")
+            savefig("Fig2_l$(SUFFIX).pdf")                             # AUTOMATION
+            scatter(ah[5,2,:],yh[5,2,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 2, Agent 5")
+            savefig("Fig2_r$(SUFFIX).pdf")                             # AUTOMATION
+        end
+        println("Avg error1",err[:,1]./utinv.(avdis[:,1]))
+        println("Avg error2",err[:,2]./utinv.(avdis[:,2]))
+        global runflag=1
+        # In iteration 125,save oldk and oldb to provide initial conditions for later iterations
+        if iter == 125
+            global holdk[:,:,:]=oldk[:,:,:]
+            global holdb[:,:,:]=oldb[:,:,:]
+            println(holdk)
+        end
+    end
+end
+# Start of main program... can add timing
+@time solvemodel()
+# no further post-processing in this version
+
+
+# Save coefficients and active subspaces if needed:
+# (Commented out lines are placeholders for saving data if desired.)
+#rawrite(coeff,joinpath(RESULTS_PATH,"coeff0.dat"))
+#rawrite(lincoeff,joinpath(RESULTS_PATH,"lincoeff0.dat"))
+#rawrite(bounds,joinpath(RESULTS_PATH,"bounds0.dat"))
+#rawrite(oldk,joinpath(RESULTS_PATH,"oldk0.dat"))
+#rawrite(oldak,joinpath(RESULTS_PATH,"oldak0.dat"))
+#rawrite(oldb,joinpath(RESULTS_PATH,"oldb.dat"))
+#rawrite(proj,joinpath(RESULTS_PATH,"proj0.dat"))
+#rawrite(sol,joinpath(RESULTS_PATH,"sol0.dat"))
