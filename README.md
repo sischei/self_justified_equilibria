@@ -80,7 +80,7 @@ $ julia mainhom.jl
 
 * The header of [`mainhom.jl`](code/mainhom.jl) specifies the various functions we require to solve the model with SJE.
 * `mainhom.jl` includes the file [`paramshom.jl`](code/paramshom.jl); it contains the parameterization of the model, and its header provides some more specifics.
-* The default setting is such that the model is solved for one fixed fraction of sophisticated traders (ψ = 0.5; in `paramshom.jl`, line 31: `const frac = 0.5`).
+* The default setting is such that the model is solved for one fixed fraction of sophisticated traders (ψ = 0.0; in `paramshom.jl`, line 35).
 
 #### Automated execution via flags
 
