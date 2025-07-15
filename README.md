@@ -44,7 +44,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
 * The approximate time needed to reproduce all the analyses for this paper on a standard (year 2025) desktop machine is 1 day of human time.
 
 **Note on reproducibility**  
-Due to slight nondeterminism in Julia’s pseudorandom-number generator, running `mainhom.jl` on different machines or under different Julia versions may produce minor numerical differences in the output files. These variations do **not** affect any of the substantive economic conclusions. See the [Julia documentation on reproducibility for details](https://docs.julialang.org/en/v1/stdlib/Random/#Reproducibility).
+Due to slight nondeterminism in Julia’s pseudorandom-number generator, running `mainhom.jl`, the primary routine implementing our SJE methodology, on different machines or under different Julia versions may yield minor numerical discrepancies in the output files. These variations do **not** affect any of the substantive economic conclusions. See the [Julia documentation on reproducibility for details](https://docs.julialang.org/en/v1/stdlib/Random/#Reproducibility).
 
 
 ## Replication
