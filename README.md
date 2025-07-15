@@ -10,11 +10,13 @@
 
 This [Julia-based](https://julialang.org/) code repository supplements the work of [Felix Kuebler](https://sites.google.com/site/fkubler/) and [Simon Scheidegger](https://sites.google.com/site/simonscheidegger), titled _[Self-Justified Equilibria: Existence and Computation](#citation)_ (Kubler and Scheidegger; Journal of the European Economic Association (JEEA), 2025).
 
-* This repository contains two distinct folders:
+* This repository contains three distinct folders:
   1. ["Replication codes"](code): Replication codes for *Section 6 - Application of SJE: A High-Dimensional Stochastic Production Economy*, where a complex, nonlinear, high-dimensional stochastic production economy is solved with the SJE algorithm. 
   Notice that the codes provided here complement *Section 5 - The numerical method*, where the algorithmic underpinnings of the code are outlined.
       
-  2. ["Replication of figures"](code/figures_replication): Replication routine for plotting all the figures that are presented in the paper.
+  2. ["Replication of figures"](code/figures_replication): All the figures that are presented in the paper.
+ 
+  3. ["Pre-computed results"](code/data_replication): All the raw data required to replicate the figures presented in the paper.
 
   
 ### Replication of the numerical results
@@ -74,19 +76,26 @@ julia> Pkg.add("Plots")
 julia> Pkg.add("RawArray")
 ```
 
-To solve the model from scratch, execute:
+To solve the model from scratch for all values of ψ presented in the paper, that is, ψ ∈ {0, 0.5, 0.9}, execute:
 
 ```
-$ julia mainhom.jl
+$ julia run_all.jl
 ```
+
+This file executes [``mainhom.jl``](code/mainhom.jl), which implements our SJE method, for the various values of ψ.
+Alternatively, a simulation for any other specific value can be run by using the ψ flag, for example:
+
+```
+$ julia run_all.jl 0.5       # runs only for Ψ = 0.5
+```
+
+* The header of [``run_all.jl``](code/run_all.jl) specifies its usage. 
 
 * The header of [``mainhom.jl``](code/mainhom.jl) specifies the various functions we require to solve the model with SJE.
 
 * ``mainhom.jl`` includes the file [``paramshom.jl``](code/paramshom.jl); it contains the parameterization of the model, and its header provides some more specifics. 
 
-* The default setting is such that the model is solved for *one* fixed fraction of sophisticated traders (ψ=0.5; in ``paramshom.jl``, line 31: const frac=0.5).
-
-* To replicate all the results reported in this paper, execute `mainhom.jl` three times—once for each value of ψ ∈ {0, 0.5, 0.9}. Before each run, edit line 31 of `paramshom.jl` to set `const frac = 0.0`, `0.5`, or `0.9`, respectively, and update the output-file names in accordance with the “Naming Convention for Output Data” section in the header of `mainhom.jl`.
+* The default setting is such that the model is solved for *one* fixed fraction of sophisticated traders (ψ=0.5; in ``paramshom.jl``, line 16: psi = length(ARGS) >= 1 ? parse(Float64, ARGS[1]) : 0.5).
 
 
 ### 2. Replication of figures
@@ -94,7 +103,7 @@ $ julia mainhom.jl
 In this section, we provide the basic instructions on how to replicate the 3 figures of the article, based on pre-computed results.
 There are two ways to replicate the 3 figures.
 
-1. Re-run ``mainhom.jl``, as described above, for ψ ∈ {0, 0.5, 0.9}. The data will be dumped into a [results folder](code/results). 
+1. Run ``run_all.jl``, as described above (which will execute ``mainhom.jl`` for ψ ∈ {0, 0.5, 0.9}). The data will be dumped into a [results folder](code/results). 
 Once those results have been compute, go to the following folder:
 
 ```
@@ -122,7 +131,7 @@ and will store the resulting plots [(Figure1.pdf, Figure2.pdf, and Figure3.pdf).
 $ <PATH to the repository>/code/figures_replication 
 ```
 
-2. If you simply want to replicate the plots in the paper without re-running ``mainhom.jl``, proceed as follows:
+2. If you simply want to replicate the plots in the paper without re-running ``mainhom.jl`` via ``run_all.jl``, proceed as follows:
 First, go to the following folder:
 
 ```

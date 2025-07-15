@@ -31,7 +31,7 @@
 #      figure2_5b.dat, figure3_5.dat). The "5" represents
 #      the after-comma digit in frac, the fraction of sophisticated traders. frac is set in paramshom.jl.
 #      figure1_5a.dat represents a figure, where frac = 0.5. If frac is set e.g. to 0.9, the output 
-#      files would need to be renamed accordingly (e.g., figure1_9a.dat).
+#      files are automatically renamed accordingly (e.g., figure1_9a.dat).
 #
 ################################################################################
 

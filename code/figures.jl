@@ -13,7 +13,7 @@
 using Plots, RawArray
 ENV["GKSwstype"]="nul" # Add this line to fix GKS error on clusters
 
-const RESULTS_PATH = "./results"  # folder where the results were written from mainhom.jl
+const RESULTS_PATH = "results"  # folder where the results were written from mainhom.jl
 #const RESULTS_PATH = "data_replication"  # folder where the pre-computed results are located   
     
 const hh = 60 # Number generations
