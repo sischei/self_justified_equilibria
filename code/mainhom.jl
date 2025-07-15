@@ -22,43 +22,27 @@
 # Usage:
 #   1) Ensure "paramshom.jl" is in the same folder.
 #   2) Install the required Julia packages (e.g., NLsolve, Plots, RawArray).
-#   3) Run the script with "julia mainhom.jl".
-#   4) Allows for multithreading via "julia --threads=n mainhom.jl", where n is the number of threads
+#   3) Run the script with "julia mainhom.jl [Ψ]" where Ψ ∈ {0,0.5,0.9}.
+#   4) Allows for multithreading via "julia --threads=n mainhom.jl Ψ", where n is the number of threads
 #   5) The result files are written into a folder called "RESULTS_PATH", which has to be set below.
 #
 # Naming Convention for output Data:
 #   1) There are a variety of files produced below (figure1_5a.dat, figure1_5b.dat, figure2_5a.dat, 
 #      figure2_5b.dat, figure3_5.dat). The "5" represents
 #      the after-comma digit in frac, the fraction of sophisticated traders. frac is set in paramshom.jl.
-#      figure_1_5a.dat represents a figure, where frac = 0.5. If frac is set e.g. to 0.9, the output 
+#      figure1_5a.dat represents a figure, where frac = 0.5. If frac is set e.g. to 0.9, the output 
 #      files would need to be renamed accordingly (e.g., figure1_9a.dat).
 #
 ################################################################################
 
 using LinearAlgebra
 using NLsolve, Plots, RawArray
-ENV["GKSwstype"] = "nul" # Add this line to fix GKS error on clusters
-
-# ---------------------------------------------------------------------------
-# AUTOMATION: optional flags
-#   --psi=<val>   : run once with ψ = <val>  (0.0, 0.5, 0.9, …)
-#   --allpsi      : loop over {0.0, 0.5, 0.9} in three fresh processes
-# ---------------------------------------------------------------------------
-if "--allpsi" in ARGS
-    for v in ["0.0", "0.5", "0.9"]
-        run(`$(Base.julia_cmd()) --threads=$(Threads.nthreads()) mainhom.jl --psi=$v`)
-    end
-    exit()                          # dispatcher finished
-end
-
-for a in ARGS
-    startswith(a, "--psi=") && (ENV["PSI"] = split(a, "=")[2])
-end
-# ---------------------------------------------------------------------------
+ENV["GKSwstype"]="nul" # Add this line to fix GKS error on clusters
+#  2 types with different forecasting abilities, 60 overlapping generations 
 
 include("./paramshom.jl") # is assumed to be in the same folder.
-const RESULTS_PATH = "results"  # is the folder where the results of this routine are written
-const SUFFIX = Int(round(frac * 10))  # AUTOMATION: 0 → 0, 0.5 → 5, 0.9 → 9
+const psi_digit = Int(round(frac*10))  # 0, 5, or 9 for file names
+const RESULTS_PATH = "results"  # is the folder where the results of this routine are written   
 
 function cheby(x,pdeg)
     # evaluate Chebychev polynomial of degree pdeg at x
@@ -87,7 +71,7 @@ end
 
 function dpolyn(x)
     # evaluate the Jacobian of the above function
-    res=zeros(tdeg,2)    
+    res=zeros(tdeg,2)   
     res[:,1]=[0,1,4*x[1], 12*x[1]^2-3,0,0,0,x[2]]
     res[:,2]=[0,0,0,0,1,4*x[2],12*x[2]^2-3,x[1]]
     return res
@@ -125,7 +109,7 @@ function utinv(x)
     return (x*(1-sigma))^(1/(1-sigma))
 end
 
-function evalp(x)    # evaluate the expected policies next period
+function evalp(x)  # evaluate the expected policies next period
     # in x(hh+1,nn,nstates) cash at hand,  for Mr hh+1 irrelevant, Mr 1 only relevant in proj
     # out res[hh+1,nn,nstates], savings, zero for Mr hh+1, irrelevant for Mr 1 
     res=zeros(hh+1,nn,nstates)  
@@ -142,7 +126,7 @@ function evalp(x)    # evaluate the expected policies next period
                     res[h,n,s]=lincoeff[h,n,1]+lincoeff[h,n,2]*x[h,n,s]
                 end
                 if h<clevern && n==1
-                    hx=ones(nstates,dim[h]) 
+                    hx=ones(nstates,dim[h])  
                     for s=1:nstates
                         y=ones(2*hh)
                         y[1:hh]=x[1:hh,1,s]
@@ -155,10 +139,10 @@ function evalp(x)    # evaluate the expected policies next period
                         end
                         kstar = polyn(hx[s,:])
                         res[h,n,s] += kstar'*coeff[h,:]
-                    end    
+                    end 
                 end
             end
-        end        
+        end     
     end
     res[hh+1,:,:].=0.0
     return res
@@ -181,7 +165,7 @@ function hff(x,h) # evaluate the derivatives of the polynomial
     return res
 end
 
-function devalp(x)    # evaluate the partial derivatives of the expected next period policy
+function devalp(x)  # evaluate the partial derivatives of the expected next period policy
     # in x(hh+1,nn,nstates), h=1 must be in there, hh+1 irr
     # out res[2*hh,2*hh,nstates] h=1 is ignored. h=hh+1 is all zero! Mr h's cah is h+1, since Mr 1 is 2 years old!
     res=zeros(2*hh,2*hh,nstates)  
@@ -210,7 +194,6 @@ function devalp(x)    # evaluate the partial derivatives of the expected next pe
     res[hh,:,:] .= 0.0
     return res
 end
-
 
 function mpl(k,s) # marginal product of labor
     return tfp[s]*(1.0-alpha)*max(eps,k)^alpha
@@ -241,7 +224,7 @@ function f!(F,x,lolk)  # first order conditions
     b[1:hh,1]=x[2*hh+1:2*hh+hh]
     b[1:hh,2]=x[3*hh+1:4*hh]
     hv=ones(hh,nn)
-     hv[:,1]=lolk[1:hh]-x[1:hh]-q*b[1:hh,1]
+       hv[:,1]=lolk[1:hh]-x[1:hh]-q*b[1:hh,1]
     hv[:,2]=lolk[hh+1:2*hh]-x[hh+1:2*hh]-q*b[1:hh,2]
     for h=1:hh
         F[h]=-mut(hv[h,1])
@@ -261,7 +244,7 @@ function f!(F,x,lolk)  # first order conditions
         end
         hx[1,:,s] .= en[1]*wage
     end
-    help[:,:,:]=evalp(hx)  
+    help[:,:,:]=evalp(hx) 
     for s=1:nstates
         r=mpk(nextk,s)
         for h=1:hh
@@ -271,10 +254,10 @@ function f!(F,x,lolk)  # first order conditions
             F[hh+h] +=  beta[h]*prob[s]*r*mu2
             F[2*hh+h] +=  hlam[h]*beta[h]*prob[s]*bond[s]*mu1
             F[3*hh+h] +=  hlam[h]*beta[h]*prob[s]*bond[s]*mu2
-         end
+       end
     end
 end
-    
+
 function df!(J,x,lolk)  # analytic Jacobian of first order conditions
     J .= 0
     hlam=ones(hh)
@@ -314,7 +297,7 @@ function df!(J,x,lolk)  # analytic Jacobian of first order conditions
     hx=zeros(hh+1,2,nstates)
     for s=1:nstates
         r=mpk(nextk,s)
-        wage=mpl(nextk,s)  
+        wage=mpl(nextk,s) 
         hx[1,1,s]=en[1]*wage
         hx[1,2,s]=en[1]*wage
         for h=1:hh
@@ -334,7 +317,7 @@ function df!(J,x,lolk)  # analytic Jacobian of first order conditions
             Jhx[1,2,i,s]+=en[1]*mplk(nextk,s)*hfrac[i]
         end
     end
-    help[:,:,:]=evalp(hx)  
+    help[:,:,:]=evalp(hx) 
     dhelp[:,:,:]=devalp(hx)
     for s=1:nstates
         r=mpk(nextk,s)
@@ -346,8 +329,8 @@ function df!(J,x,lolk)  # analytic Jacobian of first order conditions
                 hl=hlam[h]
             else
                 fbeta=beta[h-hh]
-                mu=mut(hx[h+1-hh,2,s]-help[h+1-hh,2,s])
-                mu2=mut2(hx[h+1-hh,2,s]-help[h+1-hh,2,s])
+                mu=mut(hx[h-hh+1,2,s]-help[h-hh+1,2,s])
+                mu2=mut2(hx[h-hh+1,2,s]-help[h-hh+1,2,s])
                 hl=hlam[h-hh]
             end
             for i=1:2*hh # deri wrt k's
@@ -361,19 +344,19 @@ function df!(J,x,lolk)  # analytic Jacobian of first order conditions
                     J[2*hh+h,i] += hl*fbeta*prob[s]*bond[s]*hjac*mu2  
                 else
                     J[h,i] += fbeta*prob[s]*(hfrac[i]*mpkk(nextk,s)*mu+r*hjac*(1-dhelp[h,h+1,s])*mu2) # price changes change cah
-                    J[2*hh+h,i] += hl*fbeta*prob[s]*bond[s]*hfrac[i]*(1-dhelp[h,h+1,s])*mu2
+                    J[2*hh+h,i] += hl*fbeta*prob[s]*bond[s]*hjac*(1-dhelp[h,h+1,s])*mu2
                 end
                 if h+1<clevern
                 #  mr i's capital effect mr j's cash at hand that effects mr h's optimal decision
-                # need to loop over all j=1,2hh...       
-                    for j=1:2*hh  
+                # need to loop over all j=1,2hh...      
+                    for j=1:2*hh 
                         if j <= hh
                             fhjac=Jhx[j,1,i,s]
                         else
                             fhjac=Jhx[j-hh,2,i,s]
                         end 
-                        if j != (h+1)                          
-                            J[h,i]+= -fbeta*prob[s]*r*fhjac*dhelp[h,j,s]*mu2   
+                        if j != (h+1)                            
+                            J[h,i]+= -fbeta*prob[s]*r*fhjac*dhelp[h,j,s]*mu2  
                             J[2*hh+h,i]+= -hl*fbeta*prob[s]*bond[s]*fhjac*dhelp[h,j,s]*mu2
                         end
                     end
@@ -525,7 +508,7 @@ function newcoeff(lambda) # determine new coefficients, here via ols
                 if lambda>2
                     if h==5
                         heig=eigvals(magma[h,:,:])
-                        rawrite(heig[2*hh-9:2*hh],joinpath(RESULTS_PATH, "figure3_$(SUFFIX).dat") ) # AUTOMATION
+                        rawrite(heig[2*hh-9:2*hh], joinpath(RESULTS_PATH, "figure3_$(psi_digit).dat") )
                     end
                 end
                 evec=eigvecs(magma[h,:,:])
@@ -574,8 +557,8 @@ function solvemodel() # Solve the model!
                 break
             end
         end
+        global shock=cshocks[i]
     end
-    cshocks=raread(joinpath(RESULTS_PATH,"shocks.dat"))
     global sol=zeros(4*hh+1,maxtime*maxsim)
     global oldk=zeros(hh+1,2,maxsim)
     global holdk=zeros(hh+1,2,maxsim)
@@ -685,21 +668,19 @@ function solvemodel() # Solve the model!
         println("Welfare difference", gain)
         println("Average cons.",utinv.(avdis[:,1]))
         if iter == maxiter
-            rawrite(err[:,1]./utinv.(avdis[:,1]),
-                   joinpath(RESULTS_PATH,"figure1_$(SUFFIX)a.dat"))    # AUTOMATION
-            rawrite(err[:,2]./utinv.(avdis[:,2]),
-                   joinpath(RESULTS_PATH,"figure1_$(SUFFIX)b.dat"))    # AUTOMATION
+            rawrite(err[:,1]./utinv.(avdis[:,1]), joinpath(RESULTS_PATH, "figure1_$(psi_digit)a.dat"))
+            rawrite(err[:,2]./utinv.(avdis[:,2]), joinpath(RESULTS_PATH, "figure1_$(psi_digit)b.dat"))
             help=zeros(maxsim*maxtime,2)
             help[:,1]=ah[5,1,:]
             help[:,2]=yh[5,1,:]
-            rawrite(help,joinpath(RESULTS_PATH,"figure2_$(SUFFIX)a.dat")) # AUTOMATION
+            rawrite(help, joinpath(RESULTS_PATH, "figure2_$(psi_digit)a.dat"))
             help[:,1]=ah[5,2,:]
             help[:,2]=yh[5,2,:]
-            rawrite(help,joinpath(RESULTS_PATH,"figure2_$(SUFFIX)b.dat")) # AUTOMATION
+            rawrite(help, joinpath(RESULTS_PATH, "figure2_$(psi_digit)b.dat"))
             scatter(ah[5,1,:],yh[5,1,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 1, Agent 5")
-            savefig("Fig2_l$(SUFFIX).pdf")                             # AUTOMATION
+            savefig("Fig2_l$(psi_digit).pdf")
             scatter(ah[5,2,:],yh[5,2,:],xlabel="Cash-at-Hand",ylabel="Savings",label="Type 2, Agent 5")
-            savefig("Fig2_r$(SUFFIX).pdf")                             # AUTOMATION
+            savefig("Fig2_r$(psi_digit).pdf")
         end
         println("Avg error1",err[:,1]./utinv.(avdis[:,1]))
         println("Avg error2",err[:,2]./utinv.(avdis[:,2]))
@@ -712,18 +693,17 @@ function solvemodel() # Solve the model!
         end
     end
 end
+
 # Start of main program... can add timing
 @time solvemodel()
-# no further post-processing in this version
-
 
 # Save coefficients and active subspaces if needed:
 # (Commented out lines are placeholders for saving data if desired.)
-#rawrite(coeff,joinpath(RESULTS_PATH,"coeff0.dat"))
-#rawrite(lincoeff,joinpath(RESULTS_PATH,"lincoeff0.dat"))
-#rawrite(bounds,joinpath(RESULTS_PATH,"bounds0.dat"))
-#rawrite(oldk,joinpath(RESULTS_PATH,"oldk0.dat"))
-#rawrite(oldak,joinpath(RESULTS_PATH,"oldak0.dat"))
-#rawrite(oldb,joinpath(RESULTS_PATH,"oldb.dat"))
-#rawrite(proj,joinpath(RESULTS_PATH,"proj0.dat"))
-#rawrite(sol,joinpath(RESULTS_PATH,"sol0.dat"))
+# rawrite(coeff,joinpath(RESULTS_PATH,"coeff0.dat"))
+# rawrite(lincoeff,joinpath(RESULTS_PATH,"lincoeff0.dat"))
+# rawrite(bounds,joinpath(RESULTS_PATH,"bounds0.dat"))
+# rawrite(oldk,joinpath(RESULTS_PATH,"oldk0.dat"))
+# rawrite(oldak,joinpath(RESULTS_PATH,"oldak0.dat"))
+# rawrite(oldb,joinpath(RESULTS_PATH,"oldb.dat"))
+# rawrite(proj,joinpath(RESULTS_PATH,"proj0.dat"))
+# rawrite(sol,joinpath(RESULTS_PATH,"sol0.dat"))
