@@ -110,7 +110,7 @@ Once those results have been compute, go to the following folder:
 $ cd <PATH to the repository>/code 
 ```
 
-Next, you need to run a Julia script called ``figures.jl``. Ensure that the path to the results is set correctly. In case you run all the models from scratch, 
+Next, you need to run a Julia script called [``figures.jl``](code/figures.jl). Ensure that the path to the results is set correctly. In case you run all the models from scratch, 
 please uncomment line 16 (const RESULTS_PATH = "results"), and comment out line 17 (const RESULTS_PATH = "data_replication").
 
 To produce the figures, type the following command on the terminal:
