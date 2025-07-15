@@ -30,7 +30,7 @@ This [Julia-based](https://julialang.org/) code repository supplements the work 
 
 * We provide implementations that use Julia 1.9. 
 
-* The file ``Project.toml `` lists the detailed dependencies for Julia. See [here](https://pkgdocs.julialang.org/v1/toml-files/) for detailed instructions how on how to set up and use the ``Project.toml`` file in a Julia project.
+* The file [``Project.toml``](Project.toml) lists the detailed dependencies for Julia. See [here](https://pkgdocs.julialang.org/v1/toml-files/) for detailed instructions how on how to set up and use the ``Project.toml`` file in a Julia project.
 
 
 ### Memory and runtime requirements
