@@ -1,0 +1,9 @@
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"  
+NLsolve = "2774e3e8-f4cf-5e23-947b-6d7e65073b56"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+RawArray = "b66b2c95-0d57-51e0-96f3-6f13f495e243"
+
+[compat]
+julia = "1.9.3"  
+
